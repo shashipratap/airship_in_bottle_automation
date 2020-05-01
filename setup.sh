@@ -28,11 +28,11 @@ echo "         #####Configuring Apache for apt#####"
 dpkg-scanpackages amd64 | gzip -9c > amd64/Packages.gz
 cp /etc/apt/sources.list /etc/apt/sources.list.bkp && echo "deb [trusted=yes] http://localhost/debs/ amd64/" > /etc/apt/sources.list
 apt update
+apt install docker.io -y
 ### optional to test working of script 
-#apt install docker.io -y
-#apt install jq -y
-#apt install curl -y
-#apt install nmap -y
+apt install jq -y
+apt install curl -y
+apt install nmap -y
 
 
 ############Setting local registry
