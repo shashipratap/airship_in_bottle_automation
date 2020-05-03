@@ -50,7 +50,7 @@ docker push localhost:5000/promenade
 docker rmi quay.io/airshipit/promenade:master localhost:5000/promenade
 
 
-echo "#############Cloning the direcory and making changes in deploy-airship.sh to fetch images from local repository##########"
+echo "#############Cloning the airship repo and making changes in deploy-airship.sh to fetch images from local repository##########"
 mkdir -p /root/deploy && cd "$_"
 git clone https://opendev.org/airship/airship-in-a-bottle
 cd /root/deploy/airship-in-a-bottle
