@@ -1,6 +1,6 @@
-This repo is tested on a Ubuntu 18.04.4 LTS run in AWS
+This repo is tested on a Ubuntu 16.04 LTS t2.micro run in AWS
 
-Setup Ubuntu 18.04.4 LTS in AWS and then run setup.sh after assigning chmod u+x permissions to it
+Setup Ubuntu 16.04 LTS in AWS and then run setup.sh after assigning chmod u+x permissions to it
 
 This repo is to automate https://opendev.org/airship/airship-in-a-bottle repo after creating a local ubuntu repo and a local docker registry
 
@@ -28,8 +28,7 @@ While creating ubuntu repo trust issues came which were resolved after adding [t
 During download of deb files issues were faced as first approach was to download from online repos which did not work as there were
 too many dependencies ,then a new approach was used to download it from locally setup ubuntu repo using "apt-get download" "apt-cache depends"
 
-Airship repo needs high capacity machine , so to test basic working of deploy-airship.sh, exit 1 for machine capacity was 
-commented in deploy-airship.sh
+Airship repo needs high capacity machine with 4vCPU, 20 G RAM and 32 G disk (which needs at least t2.2xlarge machine in AWS) , so to test basic working of deploy-airship.sh, exit 1 for machine capacity was commented in deploy-airship.sh
 
 During promenade build it was failing with below error which was not looked into
 
