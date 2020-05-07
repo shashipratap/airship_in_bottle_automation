@@ -11,7 +11,6 @@ then
  mkdir -p $PKGDIR
 fi
 
-export PKGDIRNAME=`filename $(realpath $PKGDIR)`
 
 
 setup_local_repo()
@@ -25,6 +24,7 @@ apt install wcstools -y
 systemctl enable apache2
 systemctl start apache2
 
+export PKGDIRNAME=`filename $(realpath $PKGDIR)`
 echo "         #####Downloading docker.io jq nmap curl deb files#####"
 cd ${PKGDIR}
 sudo apt-get download $(sudo apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances $PACKAGES | grep "^\w" | sort -u)
