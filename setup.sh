@@ -1,5 +1,19 @@
 #!/bin/bash
 set -x
+export PKGDIR=${PKGDIR:-"/var/debs/amd64"}
+export KUBE_BIN_DIR=${KUBE_BIN_DIR:-/var/www/html/kubedir}
+export PACKAGES=${PACKAGES:-"docker.io jq nmap curl nfs-common ceph-common"}
+export REPOS=${REPOS:-"quay.io docker.io gcr.io"}
+export VERSION_FILE=/root/deploy/airship-in-a-bottle/deployment_files/global/v1.0demo/software/config/versions.yaml
+
+if [ ! -d $PKGDIR ]
+then
+ mkdir -p $PKGDIR
+fi
+
+export PKGDIRNAME=`filename $(realpath $PKGDIR)`
+
+
 setup_local_repo()
 {
 echo "###########Setting up local ubuntu repo with docker.io , jq and nmap package deb files , other packages can be added as needed##########"
@@ -12,19 +26,6 @@ systemctl enable apache2
 systemctl start apache2
 
 echo "         #####Downloading docker.io jq nmap curl deb files#####"
-PKGDIR=${PKGDIR:-"/var/debs/amd64"}
-KUBE_BIN_DIR=${KUBE_BIN_DIR:-/var/www/html/kubedir}
-PACKAGES=${PACKAGES:-"docker.io jq nmap curl nfs-common ceph-common"}
-REPOS=${REPOS:-"quay.io docker.io gcr.io"}
-VERSION_FILE=/root/deploy/airship-in-a-bottle/deployment_files/global/v1.0demo/software/config/versions.yaml
-
-
-if [ ! -d $PKGDIR ]
-then
- mkdir -p $PKGDIR
-fi
-
-PKGDIRNAME=`filename $(realpath $PKGDIR)`
 cd ${PKGDIR}
 sudo apt-get download $(sudo apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances $PACKAGES | grep "^\w" | sort -u)
 cd $PKGDIR/..
@@ -66,7 +67,7 @@ sed -i 's/PEGLEG_IMAGE=${PEGLEG_IMAGE:-"quay.io\/airshipit\/pegleg:ac6297eae6c51
 sed -i 's/PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io\/airshipit\/promenade:master"}/PROMENADE_IMAGE=${PROMENADE_IMAGE:-"localhost:5000\/promenade"}/' /root/deploy/airship-in-a-bottle/manifests/common/deploy-airship.sh
 
 
-echo "##############downloading public repo images in /root/deploy/airship-in-a-bottle/deployment_files/global/v1.0demo/software/config/versions.yaml and making changes to refer to local repo###############"
+echo "##############downloading public repo images mentioned in /root/deploy/airship-in-a-bottle/deployment_files/global/v1.0demo/software/config/versions.yaml and making changes to refer to local repo###############"
 
 
 
@@ -88,7 +89,7 @@ do
                 docker rmi $image $localimage
                 echo $localimage; done < /tmp/versions.$repo;
                 echo "########changing ${VERSION_FILE} to refer to locarepo######"
-                sed -i "s@${repo}/@localhost:5000/@g" ${VERSION_FILE}
+         sed -i "s@${repo}/@localhost:5000/@g" ${VERSION_FILE}
 
 done
 
@@ -116,7 +117,7 @@ git clone https://opendev.org/airship/airship-in-a-bottle
 cd /root/deploy/airship-in-a-bottle
 git checkout HEAD^1
 
-setup_local_repo || error "setting up local ubuntu repo"
+#setup_local_repo || error "setting up local ubuntu repo"
 setup_local_registry || error "setting local docker registry"
 download_kubernetes_packages || error "downloading kubernetes binaries"
 
