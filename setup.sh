@@ -40,7 +40,6 @@ for pkg in $PACKAGES
 do
  apt install $pkg -y
 done
-exit 0
 
 }
 
@@ -117,7 +116,7 @@ git clone https://opendev.org/airship/airship-in-a-bottle
 cd /root/deploy/airship-in-a-bottle
 git checkout HEAD^1
 
-#setup_local_repo || error "setting up local ubuntu repo"
+setup_local_repo || error "setting up local ubuntu repo"
 setup_local_registry || error "setting local docker registry"
 download_kubernetes_packages || error "downloading kubernetes binaries"
 
