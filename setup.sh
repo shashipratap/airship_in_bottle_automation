@@ -30,7 +30,7 @@ cd ${PKGDIR}
 sudo apt-get download $(sudo apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances $PACKAGES | grep "^\w" | sort -u)
 cd $PKGDIR/..
 
-echo "         #####Configuring Apache for apt#####"
+echo "         #####Configuring local apt#####"
 dpkg-scanpackages $PKGDIRNAME | gzip -9c > $PKGDIRNAME/Packages.gz
 cp /etc/apt/sources.list /etc/apt/sources.list.bkp && echo "deb [trusted=yes] file:////$PKGDIR/.. $PKGDIRNAME/" > /etc/apt/sources.list
 apt update
