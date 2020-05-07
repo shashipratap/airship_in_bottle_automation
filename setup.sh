@@ -16,7 +16,6 @@ PKGDIR=${PKGDIR:-"/var/debs/amd64"}
 KUBE_BIN_DIR=${KUBE_BIN_DIR:-/var/www/html/kubedir}
 PACKAGES=${PACKAGES:-"docker.io jq nmap curl nfs-common ceph-common"}
 REPOS=${REPOS:-"quay.io docker.io gcr.io"}
-PKGDIRNAME=`filename $(realpath $PKGDIR)`
 VERSION_FILE=/root/deploy/airship-in-a-bottle/deployment_files/global/v1.0demo/software/config/versions.yaml
 
 
@@ -25,6 +24,7 @@ then
  mkdir -p $PKGDIR
 fi
 
+PKGDIRNAME=`filename $(realpath $PKGDIR)`
 cd ${PKGDIR}
 sudo apt-get download $(sudo apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances $PACKAGES | grep "^\w" | sort -u)
 cd $PKGDIR/..
@@ -39,8 +39,10 @@ for pkg in $PACKAGES
 do
  apt install $pkg -y
 done
+exit 0
 
 }
+
 
 setup_local_registry()
 {
