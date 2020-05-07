@@ -119,5 +119,5 @@ setup_local_registry || error "setting local docker registry"
 download_kubernetes_packages || error "downloading kubernetes binaries"
 
 cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
-#./airship-in-a-bottle.sh
+./airship-in-a-bottle.sh
 
