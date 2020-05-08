@@ -86,8 +86,10 @@ do
                 docker tag $image $localimage
                 docker push $localimage
                 docker rmi $image $localimage
-                echo $localimage; done < /tmp/versions.$repo;
-                echo "########changing ${VERSION_FILE} to refer to locarepo######"
+                echo $localimage; 
+         done < /tmp/versions.$repo;
+         
+         echo "########changing ${VERSION_FILE} to refer to locarepo######"
          sed -i "s@${repo}/@localhost:5000/@g" ${VERSION_FILE}
 
 done
