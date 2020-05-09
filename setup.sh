@@ -11,6 +11,14 @@ then
  mkdir -p $PKGDIR
 fi
 
+error() {
+  set +x
+  echo "Error when $1."
+  set -x
+  exit 1
+}
+
+
 
 
 setup_local_repo()
