@@ -29,7 +29,6 @@ error() {
 
 setup_charts_repo()
 {
-
 if [ ! -d ${CHART_DIR} ]
 then
  mkdir -p ${CHART_DIR}
@@ -54,8 +53,6 @@ do
  git clone $var
  
 done
-
-
 }
 
 
@@ -99,33 +96,6 @@ done
 
 }
 
-setup_local_repo()
-{
-echo "###########Setting up local ubuntu repo with docker.io , jq and nmap package deb files , other packages can be added as needed##########"
-
-if [ ! -d $PKGDIR ]
-then
- mkdir -p $PKGDIR
-fi
-
-export PKGDIRNAME=`filename $(realpath $PKGDIR)`
-echo "         #####Downloading docker.io jq nmap curl deb files#####"
-cd ${PKGDIR}
-sudo apt-get download $(sudo apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances $PACKAGES | grep "^\w" | sort -u)
-cd $PKGDIR/..
-
-echo "         #####Configuring local apt#####"
-dpkg-scanpackages $PKGDIRNAME | gzip -9c > $PKGDIRNAME/Packages.gz
-cp /etc/apt/sources.list /etc/apt/sources.list.bkp && echo "deb [trusted=yes] file:////$PKGDIR/.. $PKGDIRNAME/" > /etc/apt/sources.list
-apt update
-apt install docker.io -y
-### optional to test working of script
-for pkg in $PACKAGES
-do
- apt install $pkg -y
-done
-
-}
 
 
 
@@ -134,7 +104,6 @@ done
 mkdir -p /root/deploy && cd "$_"
 git clone https://opendev.org/airship/treasuremap/
 
-#setup_local_repo || error "setting up local ubuntu repo"
 setup_charts_repo || error "setting chart repo"
 setup_local_registry || error "setting local docker registry"
 
