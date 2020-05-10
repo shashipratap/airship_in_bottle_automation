@@ -7,8 +7,7 @@ export REPOS=${REPOS:-"quay.io docker.io gcr.io"}
 export VERSION_FILE=/root/deploy/treasuremap/global/software/config/versions.yaml
 export CHART_DIR=/var/charts
 
-######Taking backup of versions.yaml file#####
-cp ${VERSION_FILE} ${VERSION_FILE}.bkp
+
 
 #### Installing common packages ######
 apt update
@@ -103,6 +102,9 @@ done
 
 mkdir -p /root/deploy && cd "$_"
 git clone https://opendev.org/airship/treasuremap/
+
+######Taking backup of versions.yaml file#####
+cp ${VERSION_FILE} ${VERSION_FILE}.bkp
 
 setup_charts_repo || error "setting chart repo"
 setup_local_registry || error "setting local docker registry"
