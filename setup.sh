@@ -5,7 +5,7 @@ export KUBE_BIN_DIR=${KUBE_BIN_DIR:-/var/www/html/kubedir}
 export PACKAGES=${PACKAGES:-"docker.io jq nmap curl nfs-common ceph-common"}
 export REPOS=${REPOS:-"quay.io docker.io gcr.io"}
 export VERSION_FILE=/root/deploy/treasuremap/global/software/config/versions.yaml
-export CHART_DIR=/var/charts
+export CHART_DIR=/root/deploy/treasuremap
 
 
 
